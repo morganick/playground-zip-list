@@ -68,14 +68,6 @@ export class ZipList<T> {
       this.currItem = this.nextItems[nextIndex];
       this.nextItems = this.nextItems.slice(nextIndex + 1);
     }
-
-    // let currIndex = list.indexOf(curr);
-
-    // if (currIndex >= 0) {
-    //   this.prevItems = list.slice(0, currIndex);
-    //   this.currItem = list[currIndex];
-    //   this.nextItems = list.slice(currIndex + 1);
-    // }
   }
 
   getNext() : T | undefined {
