@@ -84,6 +84,14 @@ describe.concurrent('ZipList', () => {
       expect(ZipList.getNext(listData)).toEqual(2);
     })
 
+    it('Prev is idempotent', () => {
+      const initialListData = ZipList.create(array, 2);
+      let listData1 = ZipList.prev(initialListData);
+      let listData2 = ZipList.prev(initialListData);
+
+      expect(listData1).toEqual(listData2)
+    })
+
     it('No-op when at beginning of list', () => {
       const initialListData = ZipList.create(array, 1);
       const listData = ZipList.prev(initialListData);
@@ -102,6 +110,14 @@ describe.concurrent('ZipList', () => {
       expect(ZipList.getPrev(listData)).toEqual(1);
       expect(ZipList.getCurr(listData)).toEqual(2);
       expect(ZipList.getNext(listData)).toEqual(3);
+    })
+
+    it('Next is idempotent', () => {
+      const initialListData = ZipList.create(array, 1);
+      let listData1 = ZipList.next(initialListData);
+      let listData2 = ZipList.next(initialListData);
+
+      expect(listData1).toEqual(listData2)
     })
 
     it('No-op when at end of list', () => {

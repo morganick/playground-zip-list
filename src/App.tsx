@@ -8,6 +8,7 @@ function App() {
     {
       name: "Overview",
       buttonText: "Begin Setup",
+      imageUrl: "/overview.svg",
       description: "With Publishing, you can create custom content for your congregation and manage Church Center, the mobile app, and web experience for your congregation. Let's get you set up!",
       completed: false
     } as Step,

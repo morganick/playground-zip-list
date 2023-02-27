@@ -29,11 +29,14 @@ export class ZipList {
 
   static prev<T>(listData: ZipListData<T>) : ZipListData<T> {
     if(listData.prevItems.length > 0) {
-      listData.nextItems.unshift(listData.currItem);
-      listData.currItem = listData.prevItems.pop();
+      return {
+        prevItems: listData.prevItems.slice(0, -1),
+        currItem: listData.prevItems[listData.prevItems.length - 1],
+        nextItems: [listData.currItem, ...listData.nextItems]
+      }
+    } else {
+      return listData;
     }
-
-    return listData;
   }
 
   static getCurr<T>(listData: ZipListData<T>) : T {
@@ -80,11 +83,14 @@ export class ZipList {
 
   static next<T>(listData: ZipListData<T>) : ZipListData<T> {
     if(listData.nextItems.length > 0) {
-      listData.prevItems.push(listData.currItem);
-      listData.currItem = listData.nextItems.shift();
+      return {
+        prevItems: [...listData.prevItems, listData.currItem],
+        currItem: listData.nextItems[0],
+        nextItems: [...listData.nextItems.slice(1)]
+      }
+    } else {
+      return listData;
     }
-
-    return listData;
   }
 
 
