@@ -1,92 +1,94 @@
-export class ZipList<T> {
-  private prevItems: T[] = [];
-  private currItem: T | undefined = undefined;
-  private nextItems: T[] = [];
-  
-  constructor(list: T[], curr?: T) {
-    if(curr) {
-      let currIndex = list.indexOf(curr);
+export type ZipListData<T> = {
+  prevItems: T[];
+  currItem: T;
+  nextItems: T[];
+}
 
-      if (currIndex >= 0) {
-        this.prevItems = list.slice(0, currIndex);
-        this.currItem = list[currIndex];
-        this.nextItems = list.slice(currIndex + 1);
+export class ZipList {
+  static create<T>(list: T[], curr?: T) : ZipListData<T> {
+    let currIndex = curr ? list.indexOf(curr) : -1;
+    if (currIndex >= 0) {
+      return {
+        prevItems: list.slice(0, currIndex),
+        currItem: list[currIndex],
+        nextItems: list.slice(currIndex + 1)
       }
     } else {
       let [first, ...rest] = list;
-      this.currItem = first;
-      this.nextItems = rest;
+      return {
+        prevItems: [],
+        currItem: first,
+        nextItems: rest
+      }
     }
   }
 
-  getPrev() : T | undefined {
-    return this.prevItems.at(-1);
+  static getPrev<T>(listData: ZipListData<T>) : T | undefined {
+    return listData.prevItems.at(-1);
   }
 
-  prev() : void {
-    if(this.currItem === undefined) { return }
-
-    if(this.prevItems.length > 0) {
-      this.nextItems.unshift(this.currItem);
-      this.currItem = this.prevItems.pop();
-    }
-  }
-
-  getCurr() : T | undefined {
-    return this.currItem;
-  }
-
-  setCurr(item: T) : void {
-    if (this.currItem === undefined) { return }
-
-    let oldCurr = this.currItem;
-    let prevIndex = this.prevItems.indexOf(item);
-
-    if (prevIndex === 0) {
-      this.currItem = this.prevItems.shift();
-      this.nextItems = [...this.prevItems, oldCurr, ...this.nextItems]
-      this.prevItems = []
-
-      return;
-    } else if (prevIndex > 0) {
-      this.currItem = this.prevItems[prevIndex];
-      this.nextItems = [...this.prevItems.slice(prevIndex + 1), oldCurr, ...this.nextItems];
-
-      return;
+  static prev<T>(listData: ZipListData<T>) : ZipListData<T> {
+    if(listData.prevItems.length > 0) {
+      listData.nextItems.unshift(listData.currItem);
+      listData.currItem = listData.prevItems.pop();
     }
 
-    let nextIndex = this.nextItems.indexOf(item);
-    if(nextIndex === 0) {
-      [this.currItem, ...this.nextItems] = this.nextItems;
-      this.prevItems.push(oldCurr);
+    return listData;
+  }
 
-      return;
-    } else if(nextIndex > 0) {
-      this.prevItems = [
-        ...this.prevItems, oldCurr, ...this.nextItems.slice(0, nextIndex)
-      ];
-      this.currItem = this.nextItems[nextIndex];
-      this.nextItems = this.nextItems.slice(nextIndex + 1);
+  static getCurr<T>(listData: ZipListData<T>) : T {
+    return listData.currItem;
+  }
+
+  // setCurr(item: T) : void {
+  //   if (this.currItem === undefined) { return }
+
+  //   let oldCurr = this.currItem;
+  //   let prevIndex = this.prevItems.indexOf(item);
+
+  //   if (prevIndex === 0) {
+  //     this.currItem = this.prevItems.shift();
+  //     this.nextItems = [...this.prevItems, oldCurr, ...this.nextItems]
+  //     this.prevItems = []
+
+  //     return;
+  //   } else if (prevIndex > 0) {
+  //     this.currItem = this.prevItems[prevIndex];
+  //     this.nextItems = [...this.prevItems.slice(prevIndex + 1), oldCurr, ...this.nextItems];
+
+  //     return;
+  //   }
+
+  //   let nextIndex = this.nextItems.indexOf(item);
+  //   if(nextIndex === 0) {
+  //     [this.currItem, ...this.nextItems] = this.nextItems;
+  //     this.prevItems.push(oldCurr);
+
+  //     return;
+  //   } else if(nextIndex > 0) {
+  //     this.prevItems = [
+  //       ...this.prevItems, oldCurr, ...this.nextItems.slice(0, nextIndex)
+  //     ];
+  //     this.currItem = this.nextItems[nextIndex];
+  //     this.nextItems = this.nextItems.slice(nextIndex + 1);
+  //   }
+  // }
+
+  static getNext<T>(listData: ZipListData<T>) : T | undefined {
+    return listData.nextItems[0];
+  }
+
+  static next<T>(listData: ZipListData<T>) : ZipListData<T> {
+    if(listData.nextItems.length > 0) {
+      listData.prevItems.push(listData.currItem);
+      listData.currItem = listData.nextItems.shift();
     }
-  }
 
-  getNext() : T | undefined {
-    return this.nextItems[0];
-  }
-
-  next() : void {
-    if(this.currItem === undefined) { return }
-
-    if(this.nextItems.length > 0) {
-      this.prevItems.push(this.currItem);
-      this.currItem = this.nextItems.shift();
-    }
+    return listData;
   }
 
 
-  toList() : T[] {
-    if (this.currItem === undefined ) { return [] }
-
-    return [...this.prevItems, this.currItem, ...this.nextItems];
+  static toList<T>(listData: ZipListData<T>) : T[] {
+    return [...listData.prevItems, listData.currItem, ...listData.nextItems];
   }
 }

@@ -1,19 +1,1 @@
-#root {
-  max-width: 600px;
-  margin: 0 auto;
-  padding: 2rem;
-}
-
-.pending { 
-  background-color: purple;
-}
-
-.completed { 
-  background-color: green;
-}
-
-.canceled {
-  background-color: grey;
-  text-decoration: line-through;
-}
 
