@@ -1,45 +1,48 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import { ZipList } from './ZipList';
-import { ToDo } from './types';
+import Layout from './components/Layout';
+import OnBoarding from './components/OnBoarding';
+import { Step } from './types';
 import './App.css'
 
 function App() {
-  let todos = [
+  let steps = [
     {
-      name: "Finish ZipList Tests",
-      description: "Make sure all of the methods have tests and pass",
-      status: "pending",
-      type: "task"
-    } as ToDo,
+      name: "Overview",
+      buttonText: "Begin Setup",
+      imageUrl: "/overview.svg",
+      description: "With Publishing, you can create custom content for your congregation and manage Church Center, the mobile app, and web experience for your congregation. Let's get you set up!",
+      completed: false
+    } as Step,
     {
-      name: "Print ZipList",
-      status: "completed",
-      type: "task"
-    } as ToDo,
+      name: "App",
+      buttonText: "Next",
+      description: "Do you want to set up your Church Center app?",
+      completed: false
+    } as Step,
     {
-      name: "Call with Chris",
-      status: "canceled",
-      type: "event"
-    } as ToDo
+      name: "Web",
+      buttonText: "Next",
+      description: "You're all set to use Church Center Web!",
+      completed: false
+    } as Step,
+    {
+      name: "Features",
+      buttonText: "Next",
+      description: "Which Planning Center features do you want to publish now?",
+      completed: false
+    } as Step,
+    {
+      name: "Home Page",
+      buttonText: "Let's do it!",
+      description: "With Publishing, your church will have a single, unified home page across Church Center App and Church Center Web. Let's get you started with a sample one—you can make any edits you'd like before publishing the page to your congregation.",
+      completed: false
+    } as Step,
   ];
 
-  let list = new ZipList<ToDo>(todos);
 
   return (
-    <div className="App">
-      <ul>
-        {list.toList().map((item, index) => {
-          return (
-            <li key={index} className={[item.type, item.status].join(" ")}>
-              <h2>{item.name}</h2>
-              <p>{item.description}</p>
-              <p>{item.status}</p>
-            </li>
-          )
-        })}
-      </ul>
-    </div>
+    <Layout>
+      <OnBoarding steps={steps} />
+    </Layout>
   )
 }
 
