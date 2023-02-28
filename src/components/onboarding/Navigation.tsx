@@ -18,7 +18,7 @@ function Navigation({listData} : Props) {
             <li key={index} className={`relative group ${item.completed ? "completed" : ""} ${item === currItem ? "active" : ""}`}>
               <h2 className="px-3 py-4 text-sm text-center">{item.name}</h2>
               <div className="absolute bottom-full left-0 right-0 g">
-                <div className="absolute left-1/2 top-1/2 -right-2/3 -mt-0.5 h-1 bg-gray-400 group-[:last-child]:hidden group-[.completed]:bg-sky-600"></div>
+                <div className="absolute left-1/2 top-1/2 -right-2/3 -mt-0.5 h-1 bg-gray-400 group-[:last-child]:hidden group-[.completed]:bg-sky-600 group-[.completed.active]:bg-gray-400"></div>
                 <div className="absolute left-1/2 -ml-2 -mt-2 w-4 h-4 rounded-full bg-gray-400 group-[.completed]:bg-sky-600 group-[.active]:bg-white group-[.active]:outline-1 group-[.active]:outline-offset-2"></div>
               </div>
             </li>
