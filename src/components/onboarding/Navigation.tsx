@@ -9,8 +9,10 @@ type Props = {
 function Navigation({listData} : Props) {
   const list = ZipList.toList(listData); 
   const currItem = ZipList.getCurr(listData);
+  const gridColsStyle = { gridTemplateColumns: `repeat(${list.length}, 1fr)`};
+
   return(
-      <ul className={`my-5 mx-4 list-none grid gap-4 grid-cols-${list.length}`}>
+      <ul className="my-5 mx-4 list-none grid gap-4" style={gridColsStyle}>
         {list.map((item, index) => {
           return (
             <li key={index} className={`relative group ${item.completed ? "completed" : ""} ${item === currItem ? "active" : ""}`}>
